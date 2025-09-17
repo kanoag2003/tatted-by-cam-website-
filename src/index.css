@@ -1,71 +1,226 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  
+  /* Black and Hot Pink Theme */
+  --primary-black: #000000;
+  --secondary-black: #111111;
+  --hot-pink: #ff1493;
+  --bright-pink: #ff69b4;
+  --text-white: #ffffff;
+  --text-gray: #cccccc;
+  
+  color: var(--text-white);
+  background-color: var(--primary-black);
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  background: var(--primary-black);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--primary-black);
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--hot-pink);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--hot-pink);
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.2rem;
+  color: var(--text-gray);
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  line-height: 1.7;
 }
 
 button {
+  border: none;
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
   font-family: inherit;
-  background-color: #1a1a1a;
-  color: white;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  /* Mobile optimizations */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 44px; 
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--hot-pink);
+  outline-offset: 2px;
+}
+
+/* Navigation Buttons */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-width: 200px;
+}
+
+.home-button {
+  background: var(--hot-pink);
+  color: var(--primary-black);
+  box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+}
+
+.home-button:hover {
+  background: var(--bright-pink);
+  box-shadow: 0 0 25px rgba(255, 20, 147, 0.6);
+  transform: translateY(-2px);
+}
+
+.about-button,
+.portfolio-button,
+.schedule-button,
+.policy-button {
+  background: transparent;
+  color: var(--text-white);
+  border: 2px solid var(--hot-pink);
+}
+
+.about-button:hover,
+.portfolio-button:hover,
+.schedule-button:hover,
+.policy-button:hover {
+  background: var(--hot-pink);
+  color: var(--primary-black);
+  box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Mobile phones */
+@media (max-width: 430px) {
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
   }
-  a:hover {
-    color: #747bff;
+  
+  h2 {
+    font-size: 1.8rem;
   }
+  
+  p {
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .buttons {
+    width: 100%;
+    align-items: center;
+  }
+  
   button {
-    background-color: #f9f9f9;
-    color: #213547;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+/* iPhone 14, 15, 16 (390px) */
+@media (max-width: 390px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+  
+  button {
+    padding: 12px 18px;
+    font-size: 0.9rem;
+  }
+}
+
+/* iPhone SE, older iPhones (375px) */
+@media (max-width: 375px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+  }
+  
+  button {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Small phones (320px) */
+@media (max-width: 320px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+  }
+  
+  button {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+  }
+  
+  .buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  button {
+    width: auto;
+    min-width: 140px;
   }
 }

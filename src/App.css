@@ -1,46 +1,230 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--primary-black);
 }
 
 .App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
-  border-radius: 10px;
+  background: var(--primary-black);
+  padding: 3rem 2rem;
+  border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+  text-align: center;
+}
+
+.logo-buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
   margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.App-header h1 {
-  margin: 0.5em 0;
-  color: #61dafb;
+.header-text {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.App-header p {
-  font-size: 1.2em;
-  margin: 1em 0;
-  opacity: 0.8;
+.logo {
+  height: 120px;
+  width: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(255, 20, 147, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@media (prefers-color-scheme: light) {
+.logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(255, 20, 147, 0.5);
+}
+
+.header-text h1 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.header-text p {
+  text-align: center;
+  margin: 0;
+}
+
+.App-body {
+  flex: 1;
+  padding: 3rem 2rem;
+  background: var(--primary-black);
+  position: relative;
+}
+
+/* Subtle pink aura effect */
+.App-body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 105, 180, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Content Section */
+.content-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.feature-card {
+  background: var(--secondary-black);
+  border: 1px solid rgba(255, 20, 147, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.feature-card:hover {
+  border-color: var(--hot-pink);
+  box-shadow: 0 0 20px rgba(255, 20, 147, 0.2);
+  transform: translateY(-5px);
+}
+
+.feature-card h3 {
+  color: var(--hot-pink);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.feature-card p {
+  color: var(--text-gray);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Mobile-First Responsive Design */
+
+/* iPhone 14 Pro Max, 15 Pro Max, 16 Pro Max (430px) */
+@media (max-width: 430px) {
   .App-header {
-    background-color: #f0f0f0;
-    color: #213547;
+    padding: 2rem 1.5rem;
   }
   
-  .App-header h1 {
-    color: #646cff;
+  .logo-buttons-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .logo {
+    height: 100px;
+  }
+  
+  .App-body {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* iPhone 14, 15, 16 (390px) */
+@media (max-width: 390px) {
+  .App-header {
+    padding: 1.8rem 1.2rem;
+  }
+  
+  .logo-buttons-container {
+    gap: 1.5rem;
+  }
+  
+  .logo {
+    height: 90px;
+  }
+  
+  .App-body {
+    padding: 1.8rem 1.2rem;
+  }
+}
+
+/* iPhone SE, older iPhones (375px) */
+@media (max-width: 375px) {
+  .App-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .logo-buttons-container {
+    gap: 1.2rem;
+  }
+  
+  .logo {
+    height: 80px;
+  }
+  
+  .App-body {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Small phones (320px) */
+@media (max-width: 320px) {
+  .App-header {
+    padding: 1.2rem 0.8rem;
+  }
+  
+  .logo-buttons-container {
+    gap: 1rem;
+  }
+  
+  .logo {
+    height: 70px;
+  }
+  
+  .App-body {
+    padding: 1.2rem 0.8rem;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .App-header {
+    padding: 3rem 2rem;
+  }
+  
+  .logo {
+    height: 120px;
+    margin-bottom: 2rem;
+  }
+  
+  .App-body {
+    padding: 3rem 2rem;
+  }
+  
+  .features {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  
+  .feature-card {
+    padding: 2rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.5rem;
+  }
+  
+  .feature-card p {
+    font-size: 1rem;
   }
 }
