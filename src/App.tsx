@@ -1,8 +1,9 @@
-import './App.css'
-import { useState } from 'react'
+import './App.css';
+import { useState } from 'react';
+import { scrollToSection } from './buttonClicks.ts';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="App">
@@ -24,14 +25,55 @@ function App() {
         <aside className="drawer" onClick={(e) => e.stopPropagation()}>
           <nav className="drawer-nav">
             <button className='home-button' onClick={() => setIsMenuOpen(false)}>Home</button>
-            <button className='about-button'>About Me</button>
-            <button className='portfolio-button'>Portfolio</button>
-            <button className='schedule-button'>Schedule</button>
-            <button className='policy-button'>Policies</button>
+            <button className='about-button'
+            onClick = { () => {
+              scrollToSection('about');
+              setIsMenuOpen(false);
+            }} 
+            >About Me</button>
+            <button className='portfolio-button'
+            onClick = { () => {
+              scrollToSection('portfolio');
+              setIsMenuOpen(false);
+            }}
+            >Portfolio</button>
+            <button className='schedule-button'
+            onClick = { () => {
+              scrollToSection('schedule');
+              setIsMenuOpen(false);
+            }}
+            >Schedule</button>
+            <button className='policy-button'
+            onClick = { () => {
+              scrollToSection('policy');
+              setIsMenuOpen(false);
+            }}
+            > Policies</button>
           </nav>
         </aside>
       </div>
-      
+
+      <main className="sections-wrapper">
+        <div className='home-section section'>
+          Home
+        </div>
+
+        <div className='section' id='about'>
+          About
+        </div>
+
+        <div className='section' id='portfolio'>
+          Portfolio
+        </div>
+
+        <div className='section' id='schedule'>
+          Schedule
+        </div>
+
+        <div className='section' id='policy'>
+          Policy
+        </div>
+      </main>
     </div>
   )
 }

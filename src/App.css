@@ -216,6 +216,28 @@
   z-index: 1;
 }
 
+/* Centered sections wrapper sized for iPhone width */
+.sections-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 500px;
+  padding: 24px 16px 64px;
+}
+
+.section {
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  background: transparent;
+  border: none;
+  color: var(--text-white);
+}
+
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -277,6 +299,11 @@
     margin-top: 10px;      
     max-width: 90vw;      
     color: var(--text-white);
+  }
+
+  .sections-wrapper {
+    padding: 16px 12px 56px;
+    /* inherit gap from base to allow larger spacing */
   }
 }
 
