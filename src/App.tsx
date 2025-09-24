@@ -10,15 +10,15 @@ function App() {
       <header className="App-header">
         <div className="logo-buttons-container">
           <img src="/Tatted_By_Cam_logo.jpeg" alt="Tatted by Cam Logo" className="logo" />
-          <button className="hamburger" aria-label="Open menu" aria-expanded={isMenuOpen} onClick={() => setIsMenuOpen(o => !o)}>
-            <svg viewBox="0 0 24 18" aria-hidden="true" focusable="false">
-              <line x1="2" y1="2" x2="22" y2="2" />
-              <line x1="2" y1="9" x2="22" y2="9" />
-              <line x1="2" y1="16" x2="22" y2="16" />
-            </svg>
-          </button>
-          
         </div>
+
+        <button className="hamburger" aria-label="Open menu" aria-expanded={isMenuOpen} onClick={() => setIsMenuOpen(o => !o)}>
+          <svg viewBox="0 0 24 18" aria-hidden="true" focusable="false">
+            <line x1="2" y1="2" x2="22" y2="2" />
+            <line x1="2" y1="9" x2="22" y2="9" />
+            <line x1="2" y1="16" x2="22" y2="16" />
+          </svg>
+        </button>
       </header>
       {/* Off-screen drawer menu */}
       <div className={`drawer-overlay${isMenuOpen ? ' open' : ''}`} onClick={() => setIsMenuOpen(false)}>
