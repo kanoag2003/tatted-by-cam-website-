@@ -1,9 +1,19 @@
 import './App.css';
 import { useState } from 'react';
 import { scrollToSection } from './buttonClicks.ts';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const slider = [
+    '/tyler-tattoo.jpeg',
+    '/filipino-letters.JPG',
+    '/pickaxe.jpeg'
+  ]
 
   return (
     <div className="App">
@@ -63,7 +73,22 @@ function App() {
         </div>
 
         <div className='section' id='portfolio'>
-          Portfolio
+          <Swiper
+          spaceBetween={10}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          modules={[Pagination, Autoplay]}
+          className="portfolio-swiper"
+          >
+            {slider.map((img, i) => (
+              <SwiperSlide key={i}>
+                <img src={img} alt={`Tattoo ${i + 1}`} className = 'portfolio-img' onError={() => console.error("Missing image:", img)}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
         <div className='section' id='schedule'>

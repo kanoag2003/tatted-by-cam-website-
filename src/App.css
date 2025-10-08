@@ -403,3 +403,25 @@
     font-size: 1rem;
   }
 }
+.section#portfolio {
+  padding: 4rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.portfolio-swiper {
+  width: 100%;
+  max-width: 500px; /* adjust for phone/tablet */
+  height: auto;
+  margin: auto;
+}
+
+.portfolio-img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh; /* prevents overflow on phones */
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
