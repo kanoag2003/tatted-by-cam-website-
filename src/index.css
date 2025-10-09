@@ -29,7 +29,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--primary-black);
+  background: rgba(0, 0, 0, 0.7);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -127,15 +127,15 @@ button:not(.hamburger):focus-visible {
   transform: translateY(-2px);
 }
 
-/* Mobile phones */
-@media (max-width: 430px) {
+/* 📱 Mobile phones (portrait)  */
+@media (max-width: 480px) {
   h1 {
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
     margin-bottom: 0.8rem;
   }
   
   h2 {
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
   }
   
   p {
@@ -155,72 +155,89 @@ button:not(.hamburger):focus-visible {
   }
 }
 
-/* iPhone 14, 15, 16 (390px) */
-@media (max-width: 390px) {
-  h1 {
-    font-size: 2rem;
-  }
-  
-  h2 {
-    font-size: 1.6rem;
-  }
-  
-  button {
-    padding: 12px 18px;
-    font-size: 0.9rem;
-  }
-}
 
-/* iPhone SE, older iPhones (375px) */
+/* 📱 iPhone SE / smaller phones */
 @media (max-width: 375px) {
   h1 {
     font-size: 1.8rem;
   }
-  
+
   h2 {
     font-size: 1.4rem;
   }
-  
+
   button {
     padding: 12px 16px;
     font-size: 0.85rem;
   }
 }
 
-/* Small phones (320px) */
+
+/* 📱 Extra small phones (320px) */
 @media (max-width: 320px) {
   h1 {
     font-size: 1.6rem;
   }
-  
+
   h2 {
     font-size: 1.2rem;
   }
-  
+
   button {
     padding: 10px 14px;
     font-size: 0.8rem;
   }
 }
 
-/* Tablet and larger screens */
-@media (min-width: 768px) {
+
+/* 💻 Tablets (landscape & small laptops) */
+@media (min-width: 768px) and (max-width: 1024px) {
   h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
   }
-  
+
   h2 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
-  
+
+  p {
+    font-size: 1.1rem;
+  }
+
   .buttons {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
+    justify-content: center;
   }
-  
+
   button {
     width: auto;
     min-width: 140px;
+  }
+}
+
+
+/* 🖥️ Desktops and large screens */
+@media (min-width: 1025px) {
+  h1 {
+    font-size: 3.8rem;
+  }
+
+  h2 {
+    font-size: 2.8rem;
+  }
+
+  p {
+    font-size: 1.25rem;
+  }
+
+  .buttons {
+    justify-content: flex-start;
+    gap: 1.2rem;
+  }
+
+  button {
+    min-width: 160px;
   }
 }

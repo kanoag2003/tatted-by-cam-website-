@@ -2,7 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { scrollToSection } from './buttonClicks.ts';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper/modules';
+import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -73,22 +73,31 @@ function App() {
         </div>
 
         <div className='section' id='portfolio'>
-          <Swiper
-          spaceBetween={10}
-          slidesPerView={1}
-          loop={true}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          modules={[Pagination, Autoplay]}
-          className="portfolio-swiper"
-          >
-            {slider.map((img, i) => (
-              <SwiperSlide key={i}>
-                <img src={img} alt={`Tattoo ${i + 1}`} className = 'portfolio-img' onError={() => console.error("Missing image:", img)}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+            <Swiper
+              effect='coverflow'
+              grabCursor = {true}
+              centeredSlides={true}
+              slidesPerView= 'auto'
+              loop={true}
+              spaceBetween={20}
+              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              pagination={{ clickable: true }}
+              modules={[Pagination, Autoplay, EffectCoverflow]}
+              className="portfolio-swiper"
+              coverflowEffect={{
+                rotate: 25,                 
+                stretch: 50,
+                depth: 200,                 
+                modifier: 1,
+                slideShadows: true,
+              }}
+            >
+              {slider.map((img, i) => (
+                <SwiperSlide key={i} >
+                  <img src={img} alt={`Tattoo ${i + 1}`} className='portfolio-img' />
+                </SwiperSlide>
+              ))}
+      </Swiper>
         </div>
 
         <div className='section' id='schedule'>
