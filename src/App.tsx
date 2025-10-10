@@ -12,7 +12,12 @@ function App() {
   const slider = [
     '/tyler-tattoo.jpeg',
     '/filipino-letters.JPG',
-    '/pickaxe.jpeg'
+    '/pickaxe.jpeg',
+    '/flower-butterfly-tattoo.jpeg',
+    '/flower-tattoo.jpeg',
+    '/inner-forearm.jpeg',
+    '/name-tattoo.jpeg',
+    '/poly-forearm-tattoo.jpeg'
   ]
 
   return (
