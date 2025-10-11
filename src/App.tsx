@@ -2,7 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { scrollToSection } from './buttonClicks.ts';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
+import { EffectCoverflow, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -77,17 +77,23 @@ function App() {
           About
         </div>
 
+
+        
+
         <div className='section' id='portfolio'>
+        <div className='portfolio-header'>
+          <h2 className='portfolio-title'>Portfolio</h2>
+          <div className='underline'></div>
+        </div>
             <Swiper
               effect='coverflow'
               grabCursor = {true}
               centeredSlides={true}
               slidesPerView= 'auto'
               loop={true}
-              spaceBetween={20}
+              spaceBetween={-10}
               autoplay={{ delay: 4000, disableOnInteraction: false }}
-              pagination={{ clickable: true }}
-              modules={[Pagination, Autoplay, EffectCoverflow]}
+              modules={[Autoplay, EffectCoverflow]}
               className="portfolio-swiper"
               coverflowEffect={{
                 rotate: 25,                 
