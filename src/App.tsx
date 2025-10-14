@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [name,setName] = useState("")
   const slider = [
     '/tyler-tattoo.jpeg',
     '/filipino-letters.JPG',
@@ -20,6 +21,19 @@ function App() {
     '/poly-forearm-tattoo.jpeg'
   ]
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const userData = { name };
+    // Get the URL data and convert to JSON
+    const response = await fetch('', { // put API gateway link here
+
+    method: 'POST',
+    headers: { 'Content-Type' : 'application/json'},
+    body: JSON.stringify(userData)
+  }); 
+
+  const data = await response.json();
+  console.log(data); 
   return (
     <div className="App">
       <header className="App-header">
@@ -112,7 +126,16 @@ function App() {
         </div>
 
         <div className='section' id='schedule'>
-          Schedule
+        <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Full Name"
+              required
+            />
+            <button type="submit">Submit</button>
+          </form>
         </div>
 
         <div className='section' id='policy'>
@@ -121,6 +144,6 @@ function App() {
       </main>
     </div>
   )
+  }
 }
-
 export default App
