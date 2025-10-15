@@ -8,6 +8,7 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
 function App() {
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name,setName] = useState("")
   const slider = [
@@ -25,8 +26,8 @@ function App() {
     e.preventDefault();
     const userData = { name };
     // Get the URL data and convert to JSON
-    const response = await fetch('', { // put API gateway link here
-
+    const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
+    
     method: 'POST',
     headers: { 'Content-Type' : 'application/json'},
     body: JSON.stringify(userData)
@@ -34,6 +35,7 @@ function App() {
 
   const data = await response.json();
   console.log(data); 
+}; 
   return (
     <div className="App">
       <header className="App-header">
@@ -144,6 +146,5 @@ function App() {
       </main>
     </div>
   )
-  }
 }
 export default App
