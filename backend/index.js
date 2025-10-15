@@ -1,17 +1,37 @@
-import sql from 'mysql2/promise';
+import mysql from 'mysql2/promise';
 
 export async function handler(event) {
-  // parse the body, expecting the name of person
-  const body = JSON.parse(event.body)
-  const { name } = body;
+  try{
+     // parse the body created from form, expecting the name of person
+  const { name } = JSON.parse(event.body);
 
   
-  const connection = await sql.createConnection({
+  const connection = await mysql.createConnection({
     host: process.env.DB_HOST, 
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD, 
     database: process.env.DB_DATABASE 
   });
 
-  
+  // set what sql should be looking for in result 
+  await connection.execute(
+      'INSERT INTO clients (name) VALUES (?)',
+      [name]
+  );
+  await connection.end();
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: 'Client added! '}),
+
+  }
+  } catch (error){
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        message: 'Failed to add client',
+        error: error.message
+      })
+    }
+  }
 }
