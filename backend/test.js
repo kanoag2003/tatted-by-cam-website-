@@ -1,4 +1,4 @@
-import { handler } from './backend/index.js';
+import { handler } from './index.js';
 
 const fakeEvent = {
   body: JSON.stringify({ name: 'Test Client' })

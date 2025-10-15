@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import 'dotenv/config'; 
 
 export async function handler(event) {
   try{
@@ -8,10 +9,11 @@ export async function handler(event) {
   
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST, 
+    port: 3306, 
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD, 
     database: process.env.DB_DATABASE 
-  });
+  }); 
 
   // set what sql should be looking for in result 
   await connection.execute(
@@ -26,12 +28,6 @@ export async function handler(event) {
 
   }
   } catch (error){
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: 'Failed to add client',
-        error: error.message
-      })
-    }
-  }
+    console.error("Full error is: ", error)
+      }
 }
