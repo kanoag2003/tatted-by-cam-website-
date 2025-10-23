@@ -11,6 +11,7 @@ function App() {
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name,setName] = useState("")
+  const [email, setEmail] = useState("")
   const slider = [
     '/tyler-tattoo.jpeg',
     '/filipino-letters.JPG',
@@ -24,7 +25,7 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData = { name };
+    const userData = { name, email };
     // Get the URL data and convert to JSON
     const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
     
@@ -134,6 +135,13 @@ function App() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Full Name"
+              required
+            />
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Full Email"
               required
             />
             <button type="submit">Submit</button>
