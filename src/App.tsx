@@ -6,12 +6,15 @@ import { EffectCoverflow, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
+
 
 function App() {
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [name,setName] = useState("")
-  const [email, setEmail] = useState("")
+  const [name,setName] = useState("");
+  const [email, setEmail] = useState(""); 
   const slider = [
     '/tyler-tattoo.jpeg',
     '/filipino-letters.JPG',
@@ -21,11 +24,12 @@ function App() {
     '/inner-forearm.jpeg',
     '/name-tattoo.jpeg',
     '/poly-forearm-tattoo.jpeg'
-  ]
+  ];
+  const [date, setDate] = useState<Dayjs | null>(dayjs());
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData = { name, email };
+    const userData = { name, email, date };
     // Get the URL data and convert to JSON
     const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
     
@@ -143,6 +147,11 @@ function App() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Full Email"
               required
+            />
+            <DatePicker
+            value = {date}
+            onChange = {(newDate) => setDate(date)}
+            className = 'date-picker'
             />
             <button type="submit">Submit</button>
           </form>
