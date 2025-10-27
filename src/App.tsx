@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { scrollToSection } from './buttonClicks.ts';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Autoplay } from 'swiper/modules';
@@ -7,8 +7,9 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from 'dayjs';
-
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'; // wrap date picker/tells how to format dates 
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 function App() {
   
@@ -25,11 +26,44 @@ function App() {
     '/name-tattoo.jpeg',
     '/poly-forearm-tattoo.jpeg'
   ];
-  const [date, setDate] = useState<Dayjs | null>(dayjs());
+
+  const [date, setDate] = useState<dayjs.Dayjs | null>(dayjs()); // typescript requires us to take into account possible null
+  const formattedDate = date ? date.format('MM/DD/YYYY') : "No date" ; // format to string to send to API
+  
+
+  const nextAvailibility = () => {
+    if (!date) return null; 
+    let nextDate = date; // get currentDate from dayjs
+
+    while (true) {
+      nextDate = nextDate.add(1, 'day'); 
+      const currentDay = nextDate.day(); 
+      
+      // not a weekend
+      if (currentDay !== 0 && currentDay !== 6){
+        return nextDate;  
+      }
+    }
+  }
+  // get data for calender after rendering for next available date
+  useEffect(() => {
+    const fetchDate = async () =>{
+      try {
+        const getDate = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/',{
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json'},
+        })
+        const dateData = await getDate.json(); 
+      } catch (error){
+        console.log('Error fetching date: ', error)
+      }
+    }
+    fetchDate(); 
+  },[]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData = { name, email, date };
+    const userData = { name, email, formattedDate };
     // Get the URL data and convert to JSON
     const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
     
@@ -148,11 +182,14 @@ function App() {
               placeholder="Full Email"
               required
             />
-            <DatePicker
-            value = {date}
-            onChange = {(newDate) => setDate(date)}
-            className = 'date-picker'
-            />
+            
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+              value ={date}
+              onChange={(newDate) => setDate(newDate)}
+              />
+            </LocalizationProvider>
+            
             <button type="submit">Submit</button>
           </form>
         </div>
