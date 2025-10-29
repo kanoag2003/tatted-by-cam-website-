@@ -6,6 +6,7 @@ import { EffectCoverflow, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
+import '@mui/material/styles';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'; // wrap date picker/tells how to format dates 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -30,16 +31,17 @@ function App() {
   const [date, setDate] = useState<dayjs.Dayjs | null>(dayjs()); // typescript requires us to take into account possible null
   const [bookedDates, setBookedDates] =useState<string[]>([]);  // expect an array of strings 
   const formattedDate = date ? date.format('MM/DD/YYYY') : "No date" ; // format to string to send to API
-  
 
   const nextAvailibility = () => {
+
     if (!date) return null; 
     let nextDate = date; // get currentDate from dayjs
-    const formattedNextDate = nextDate.format('MM/DD/YYYY') 
 
 
     while (true) {
       nextDate = nextDate.add(1, 'day'); 
+      const formattedNextDate = nextDate.format('MM/DD/YYYY') 
+
       const currentDay = nextDate.day(); 
 
       // check if date is taken
@@ -81,9 +83,13 @@ function App() {
   }); 
 
   const data = await response.json();
-  setBookedDates
-  setDate(nextAvailibility());
-  console.log(data); 
+  if (response.ok) {
+    setBookedDates(prevDate => [...prevDate, formattedDate]); 
+    setDate(nextAvailibility());
+    console.log('Successfully booked: ', data); 
+  } else{
+    console.log('Error booking, ', data); 
+  };
 }; 
   return (
     <div className="App">

@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 export async function handler(event) {
      // parse the body created from form, expecting the name of person
-  const { name, email } = JSON.parse(event.body);
+  const { name, email, formattedDate } = JSON.parse(event.body);
   try{
     if (event.requestContext.http.method === 'OPTIONS'){
       return {
@@ -21,7 +21,7 @@ export async function handler(event) {
 
     await connection.execute(
       'INSERT INTO clients (name, email) VALUES (?, ?)',
-      [name, email]
+      [name, email, formattedDate]
     );
 
     await connection.end();
