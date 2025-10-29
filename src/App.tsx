@@ -28,17 +28,24 @@ function App() {
   ];
 
   const [date, setDate] = useState<dayjs.Dayjs | null>(dayjs()); // typescript requires us to take into account possible null
+  const [bookedDates, setBookedDates] =useState<string[]>([]);  // expect an array of strings 
   const formattedDate = date ? date.format('MM/DD/YYYY') : "No date" ; // format to string to send to API
   
 
   const nextAvailibility = () => {
     if (!date) return null; 
     let nextDate = date; // get currentDate from dayjs
+    const formattedNextDate = nextDate.format('MM/DD/YYYY') 
+
 
     while (true) {
       nextDate = nextDate.add(1, 'day'); 
       const currentDay = nextDate.day(); 
-      
+
+      // check if date is taken
+      if (bookedDates.includes(formattedNextDate)){
+        continue
+      }
       // not a weekend
       if (currentDay !== 0 && currentDay !== 6){
         return nextDate;  
@@ -54,6 +61,8 @@ function App() {
           headers: { 'Content-Type': 'application/json'},
         })
         const dateData = await getDate.json(); 
+        setBookedDates(dateData); 
+        setDate(nextAvailibility());
       } catch (error){
         console.log('Error fetching date: ', error)
       }
@@ -66,13 +75,14 @@ function App() {
     const userData = { name, email, formattedDate };
     // Get the URL data and convert to JSON
     const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
-    
     method: 'POST',
     headers: { 'Content-Type' : 'application/json'},
     body: JSON.stringify(userData)
   }); 
 
   const data = await response.json();
+  setBookedDates
+  setDate(nextAvailibility());
   console.log(data); 
 }; 
   return (
