@@ -198,12 +198,10 @@ function App() {
               placeholder="Full Email"
               required
             />
-            
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-              value ={date}
-              onChange={(newDate) => setDate(newDate)}
-              />
+              <DatePicker 
+              value={date} 
+              onChange={(newDate) => setDate(newDate)}/> 
             </LocalizationProvider>
             
             <button type="submit">Submit</button>

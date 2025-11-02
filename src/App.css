@@ -1,3 +1,11 @@
+:root {
+  --primary-black: #0a0a0a;
+  --secondary-black: #1a1a1a;
+  --hot-pink: #ff1493;
+  --text-white: #ffffff;
+  --text-gray: #a0a0a0;
+}
+
 .App {
   min-height: 100vh;
   display: flex;
@@ -505,3 +513,4 @@
     width: 300px; 
   }
 }
+
