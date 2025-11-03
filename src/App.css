@@ -1,3 +1,13 @@
+.MuiPickersSectionList-root,
+.MuiPickersInputBase-sectionsContainer,
+.css-1fb7els-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer {
+  color: black !important;
+}
+
+.MuiPickersSectionList-root * {
+  color: black !important;
+}
+
 :root {
   --primary-black: #0a0a0a;
   --secondary-black: #1a1a1a;
@@ -513,4 +523,42 @@
     width: 300px; 
   }
 }
+.css-4fl3er-MuiFormControl-root-MuiPickersTextField-root input {
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+}
 
+.MuiPickersTextField-root input {
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+}
+
+.MuiFormControl-root input {
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+}
+
+.alert {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--hot-pink);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(255, 20, 147, 0.4);
+  z-index: 10000;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

@@ -31,6 +31,9 @@ function App() {
   const [date, setDate] = useState<dayjs.Dayjs | null>(dayjs()); // typescript requires us to take into account possible null
   const [bookedDates, setBookedDates] =useState<string[]>([]);  // expect an array of strings 
   const formattedDate = date ? date.format('MM/DD/YYYY') : "No date" ; // format to string to send to API
+  const [alert, setAlert] = useState("");
+  const [showAlert, setShowAlert] = useState(false); 
+
 
   const nextAvailibility = () => {
 
@@ -75,21 +78,34 @@ function App() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userData = { name, email, formattedDate };
-    // Get the URL data and convert to JSON
+    try {
+      // Get the URL data and convert to JSON
     const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
-    method: 'POST',
-    headers: { 'Content-Type' : 'application/json'},
-    body: JSON.stringify(userData)
-  }); 
-
-  const data = await response.json();
-  if (response.ok) {
-    setBookedDates(prevDate => [...prevDate, formattedDate]); 
-    setDate(nextAvailibility());
-    console.log('Successfully booked: ', data); 
-  } else{
-    console.log('Error booking, ', data); 
-  };
+      method: 'POST',
+      headers: { 'Content-Type' : 'application/json'},
+      body: JSON.stringify(userData)
+    }); 
+  
+    const data = await response.json();
+    if (response.ok) {
+      setBookedDates(prevDate => [...prevDate, formattedDate]); 
+      setDate(nextAvailibility());
+      setAlert(`Appointment confirmed for ${formattedDate} `)
+      setShowAlert(true);
+      console.log('Successfully booked: ', data); 
+  
+      setTimeout(() => setShowAlert(false), 3000)
+    } else{
+      setAlert('Date already booked. Please choose another date.')
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+      console.log('Error booking, ', data); 
+    };
+    } catch {
+      setAlert('Error booking appointment. Please try again.');
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+    }
 }; 
   return (
     <div className="App">
@@ -198,14 +214,48 @@ function App() {
               placeholder="Full Email"
               required
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker 
-              value={date} 
-              onChange={(newDate) => setDate(newDate)}/> 
-            </LocalizationProvider>
-            
+            <div className='date-picker'>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  value={date}
+                  onChange={(newDate) => setDate(newDate)}
+                  slotProps={{
+                    textField: {
+                      sx: {
+                        '& .MuiInputBase-root': {
+                          backgroundColor: '#FFFFFF !important',
+                        },
+                        '& .MuiOutlinedInput-root': {
+                          backgroundColor: '#FFFFFF !important',
+                        },
+                        '& .MuiOutlinedInput-input': {
+                          backgroundColor: '#FFFFFF !important',
+                        },
+                        backgroundColor: '#FFFFFF !important',
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'rgba(255, 20, 147, 0.5)',
+                          borderWidth: '2px',
+                          backgroundColor: '#FFFFFF !important',
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#ff1493',
+                        },
+                        '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#ff1493',
+                        },
+                      }
+                    }
+                  }}
+                ></DatePicker>
+              </LocalizationProvider>
+              </div>
             <button type="submit">Submit</button>
           </form>
+          {showAlert && (
+            <div className='alert'>
+              {alert}
+            </div>
+          )}
         </div>
 
         <div className='section' id='policy'>
