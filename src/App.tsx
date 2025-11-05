@@ -73,7 +73,17 @@ function App() {
       }
     }
     fetchDate(); 
-  },[]);
+  }, []);
+
+  const dateDisabled = (day: dayjs.Dayjs) => {
+    const formatted = day.format('MM/DD/YYYY');
+    return bookedDates.includes(formatted) || day.day() === 0 || day.day() === 6;
+  };
+
+  const cancelSectionDateDisabled =  (day: dayjs.Dayjs) => {
+    const formatted = day.format('MM/DD/YYYY')
+    return !bookedDates.includes(formatted) ||  day.day() === 0 || day.day() === 6; 
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -145,6 +155,14 @@ function App() {
               setIsMenuOpen(false);
             }}
             >Schedule</button>
+            <button className='cancel-button'
+            onClick = { () => {
+              scrollToSection('cancelling')
+              setIsMenuOpen(false);
+            }}
+            >
+              Cancel
+            </button>
             <button className='policy-button'
             onClick = { () => {
               scrollToSection('policy');
@@ -219,6 +237,7 @@ function App() {
                 <DatePicker
                   value={date}
                   onChange={(newDate) => setDate(newDate)}
+                  shouldDisableDate={dateDisabled}
                   slotProps={{
                     textField: {
                       sx: {
@@ -256,6 +275,60 @@ function App() {
               {alert}
             </div>
           )}
+        </div>
+
+        <div className='section' id='cancelling'>
+        <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Full Name"
+              required
+            />
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Full Email"
+              required
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+              value ={date}
+              onChange={(newDate) => setDate(newDate)}
+              shouldDisableDate={cancelSectionDateDisabled}
+              slotProps={{
+                textField: {
+                  sx: {
+                    '& .MuiInputBase-root': {
+                      backgroundColor: '#FFFFFF !important',
+                    },
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: '#FFFFFF !important',
+                    },
+                    '& .MuiOutlinedInput-input': {
+                      backgroundColor: '#FFFFFF !important',
+                    },
+                    backgroundColor: '#FFFFFF !important',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgba(255, 20, 147, 0.5)',
+                      borderWidth: '2px',
+                      backgroundColor: '#FFFFFF !important',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#ff1493',
+                    },
+                    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#ff1493',
+                    },
+                  }
+                }
+              }}
+              ></DatePicker>
+            </LocalizationProvider>
+            <button type="button">Cancel</button>
+        </form>
         </div>
 
         <div className='section' id='policy'>

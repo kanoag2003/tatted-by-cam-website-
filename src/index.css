@@ -95,31 +95,23 @@ button:not(.hamburger):focus-visible {
   min-width: 200px;
 }
 
-.home-button {
-  background: var(--hot-pink);
-  color: var(--primary-black);
-  box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
-}
-
-.home-button:hover {
-  background: var(--bright-pink);
-  box-shadow: 0 0 25px rgba(255, 20, 147, 0.6);
-  transform: translateY(-2px);
-}
-
+.home-button, 
 .about-button,
 .portfolio-button,
 .schedule-button,
-.policy-button {
+.policy-button,
+.cancel-button{
   background: transparent;
   color: var(--text-white);
   border: 2px solid var(--hot-pink);
 }
 
+.home-button:hover, 
 .about-button:hover,
 .portfolio-button:hover,
 .schedule-button:hover,
-.policy-button:hover {
+.policy-button:hover,
+.cancel-button:hover{
   background: var(--hot-pink);
   color: var(--primary-black);
   box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
