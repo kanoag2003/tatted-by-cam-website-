@@ -34,7 +34,8 @@ function App() {
   const formattedDate = date ? date.format('MM/DD/YYYY') : "No date" ; // format to string to send to API
   const [alert, setAlert] = useState("");
   const [showAlert, setShowAlert] = useState(false); 
-
+  const [time, setTime] = useState<dayjs.Dayjs | null>(null);
+  const timeSet = ['12:00 PM', '2:00 PM', '4:00 PM']
 
   const nextAvailibility = () => {
 
@@ -84,6 +85,11 @@ function App() {
   const cancelSectionDateDisabled =  (day: dayjs.Dayjs) => {
     const formatted = day.format('MM/DD/YYYY')
     return !bookedDates.includes(formatted) ||  day.day() === 0 || day.day() === 6; 
+  }
+  
+  const timeDisabled = (time: dayjs.Dayjs) => {
+    const timeFormat = time.format('hh:mm A')
+    return !timeSet.includes(timeFormat); 
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -267,6 +273,38 @@ function App() {
                     }
                   }}
                 ></DatePicker>
+                <TimePicker
+                value ={time}
+                onChange={(newTime) => setTime(newTime)}
+                shouldDisableTime ={timeDisabled}
+                slotProps={{
+                  textField: {
+                    sx: {
+                      '& .MuiInputBase-root': {
+                        backgroundColor: '#FFFFFF !important',
+                      },
+                      '& .MuiOutlinedInput-root': {
+                        backgroundColor: '#FFFFFF !important',
+                      },
+                      '& .MuiOutlinedInput-input': {
+                        backgroundColor: '#FFFFFF !important',
+                      },
+                      backgroundColor: '#FFFFFF !important',
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(255, 20, 147, 0.5)',
+                        borderWidth: '2px',
+                        backgroundColor: '#FFFFFF !important',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#ff1493',
+                      },
+                      '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#ff1493',
+                      },
+                    }
+                  }
+                }}
+                ></TimePicker>
               </LocalizationProvider>
               </div>
             <button type="submit">Submit</button>
