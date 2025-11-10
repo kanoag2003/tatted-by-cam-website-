@@ -10,7 +10,6 @@ import '@mui/material/styles';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'; // wrap date picker/tells how to format dates 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
 function App() {
@@ -34,8 +33,7 @@ function App() {
   const formattedDate = date ? date.format('MM/DD/YYYY') : "No date" ; // format to string to send to API
   const [alert, setAlert] = useState("");
   const [showAlert, setShowAlert] = useState(false); 
-  const [time, setTime] = useState<dayjs.Dayjs | null>(null);
-  const timeSet = ['12:00 PM', '2:00 PM', '4:00 PM']
+  const [appointmentTime, setappointmentTime] = useState('12:00 PM'); 
 
   const nextAvailibility = () => {
 
@@ -87,14 +85,9 @@ function App() {
     return !bookedDates.includes(formatted) ||  day.day() === 0 || day.day() === 6; 
   }
   
-  const timeDisabled = (time: dayjs.Dayjs) => {
-    const timeFormat = time.format('hh:mm A')
-    return !timeSet.includes(timeFormat); 
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData = { name, email, formattedDate };
+    const userData = { name, email, formattedDate, appointmentTime };
     try {
       // Get the URL data and convert to JSON
     const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
@@ -273,40 +266,18 @@ function App() {
                     }
                   }}
                 ></DatePicker>
-                <TimePicker
-                value ={time}
-                onChange={(newTime) => setTime(newTime)}
-                shouldDisableTime ={timeDisabled}
-                slotProps={{
-                  textField: {
-                    sx: {
-                      '& .MuiInputBase-root': {
-                        backgroundColor: '#FFFFFF !important',
-                      },
-                      '& .MuiOutlinedInput-root': {
-                        backgroundColor: '#FFFFFF !important',
-                      },
-                      '& .MuiOutlinedInput-input': {
-                        backgroundColor: '#FFFFFF !important',
-                      },
-                      backgroundColor: '#FFFFFF !important',
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgba(255, 20, 147, 0.5)',
-                        borderWidth: '2px',
-                        backgroundColor: '#FFFFFF !important',
-                      },
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#ff1493',
-                      },
-                      '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#ff1493',
-                      },
-                    }
-                  }
-                }}
-                ></TimePicker>
               </LocalizationProvider>
+              <div className='time-slots'>
+                <select
+                value ={appointmentTime}
+                onChange={(e) => setappointmentTime(e.target.value)}
+                >
+                  <option value="12:00 PM">12:00 PM</option>
+                  <option value="2:00 PM">2:00 PM</option>
+                  <option value="4:00 PM">4:00 PM</option>
+                </select>
               </div>
+            </div>
             <button type="submit">Submit</button>
           </form>
           {showAlert && (

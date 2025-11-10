@@ -18,10 +18,10 @@ export async function handler(event) {
     }); 
     if (event.requestContext.http.method === 'POST'){
       // parse the body created from form, expecting the name of person
-      const { name, email, formattedDate } = JSON.parse(event.body);
+      const { name, email, formattedDate, appointmentTime } = JSON.parse(event.body);
       await connection.execute(
-        'INSERT INTO clients (name, email, formattedDate) VALUES (?, ?, ?)', 
-        [name, email, formattedDate]
+        'INSERT INTO clients (name, email, formattedDate, appointmentTime) VALUES (?, ?, ?, ?)', 
+        [name, email, formattedDate, appointmentTime]
       );
   
       await connection.end();
