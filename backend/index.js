@@ -41,11 +41,26 @@ export async function handler(event) {
         body: JSON.stringify(rows)
       }
     }
+
+    if(event.requestContext.http.method === 'DELETE'){
+      const {cancelName, cancelEmail, formattedCancelDate} = JSON.parse(event.body);
+      await connection.execute(
+        "DELETE FROM clients WHERE name = ? AND email = ? and formattedDate = ?", 
+        [cancelName, cancelEmail, formattedCancelDate]
+      );
+  
+      await connection.end(); 
+  
+      return{
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Client deleted '})
+      }
+    }
   } catch (error){
     console.error('Full error is: ', error)
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Error adding client details '})
+      body: JSON.stringify({ message: 'Error adding or deleting client details '})
     }
   }
 }
