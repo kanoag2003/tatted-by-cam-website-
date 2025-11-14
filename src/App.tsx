@@ -34,6 +34,10 @@ function App() {
   const [alert, setAlert] = useState("");
   const [showAlert, setShowAlert] = useState(false); 
   const [appointmentTime, setappointmentTime] = useState('12:00 PM'); 
+  const [cancelName, setCancelName] = useState("");  
+  const [cancelEmail, setCancelEmail] = useState(""); 
+  const [cancelDate, setCancelDate] = useState<dayjs.Dayjs | null>(dayjs());
+  const formattedCancelDate =  cancelDate ? cancelDate.format('MM/DD/YYYY') : "No date" 
 
   const nextAvailibility = () => {
 
@@ -66,14 +70,20 @@ function App() {
           headers: { 'Content-Type': 'application/json'},
         })
         const dateData = await getDate.json(); 
-        setBookedDates(dateData); 
-        setDate(nextAvailibility());
+        const dateString = dateData.map((item: {formattedDate: string}) => item.formattedDate) //  change to array of strings from objects so date is grayed out when refreshed 
+        setBookedDates(dateString); 
       } catch (error){
         console.log('Error fetching date: ', error)
       }
     }
     fetchDate(); 
   }, []);
+  // get next available date when page refreshes
+  useEffect(() => {
+    if (bookedDates.length > 0) {
+      setDate(nextAvailibility());
+    }
+  }, [bookedDates]);
 
   const dateDisabled = (day: dayjs.Dayjs) => {
     const formatted = day.format('MM/DD/YYYY');
@@ -95,7 +105,7 @@ function App() {
       headers: { 'Content-Type' : 'application/json'},
       body: JSON.stringify(userData)
     }); 
-  
+
     const data = await response.json();
     if (response.ok) {
       setBookedDates(prevDate => [...prevDate, formattedDate]); 
@@ -103,19 +113,51 @@ function App() {
       setAlert(`Appointment confirmed for ${formattedDate} `)
       setShowAlert(true);
       console.log('Successfully booked: ', data); 
-  
       setTimeout(() => setShowAlert(false), 3000)
+
     } else{
       setAlert('Date already booked. Please choose another date.')
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
-      console.log('Error booking, ', data); 
     };
+
     } catch {
       setAlert('Error booking appointment. Please try again.');
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
     }
+  };
+
+    const handleDelete =  async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const userData = { cancelName, cancelEmail, formattedCancelDate, appointmentTime };
+      try {
+          // Get the URL data and convert to JSON
+        const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
+          method: 'DELETE',
+          headers: { 'Content-Type' : 'application/json'},
+          body: JSON.stringify(userData)
+        }); 
+
+        const deleteData =  await response.json(); 
+        if (response.ok) {
+          setBookedDates(prevDate => prevDate.filter(date => date != formattedCancelDate)); 
+          setAlert(`Appointment deleted for : ${formattedCancelDate}`);
+          setShowAlert(true); 
+          console.log('Succesfully deleted: ', deleteData); 
+          setTimeout(() => setShowAlert(false), 3000); 
+
+        } else {
+          setAlert('Date not found. Please try again.')
+          setShowAlert(true); 
+          setTimeout(() => setShowAlert(false), 3000); 
+        } 
+
+      } catch {
+        setAlert('Error deleting appointment. Please try again.');
+        setShowAlert(true);
+          setTimeout(() => setShowAlert(false), 3000);
+      };
 }; 
   return (
     <div className="App">
@@ -288,25 +330,25 @@ function App() {
         </div>
 
         <div className='section' id='cancelling'>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleDelete}>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={cancelName}
+              onChange={(e) => setCancelName(e.target.value)}
               placeholder="Full Name"
               required
             />
             <input
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={cancelEmail}
+              onChange={(e) => setCancelEmail(e.target.value)}
               placeholder="Full Email"
               required
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-              value ={date}
-              onChange={(newDate) => setDate(newDate)}
+              value ={cancelDate}
+              onChange={(newDate) => setCancelDate(newDate)}
               shouldDisableDate={cancelSectionDateDisabled}
               slotProps={{
                 textField: {
@@ -337,7 +379,7 @@ function App() {
               }}
               ></DatePicker>
             </LocalizationProvider>
-            <button type="button">Cancel</button>
+            <button type="submit">Cancel</button>
         </form>
         </div>
 
