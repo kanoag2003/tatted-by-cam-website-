@@ -37,7 +37,9 @@ function App() {
   const [cancelName, setCancelName] = useState("");  
   const [cancelEmail, setCancelEmail] = useState(""); 
   const [cancelDate, setCancelDate] = useState<dayjs.Dayjs | null>(dayjs());
-  const formattedCancelDate =  cancelDate ? cancelDate.format('MM/DD/YYYY') : "No date" 
+  const formattedCancelDate =  cancelDate ? cancelDate.format('MM/DD/YYYY') : "No date"
+  const [file, setFile] = useState<File | null >(null); 
+  const [description, setDescription]  = useState(''); 
 
   const nextAvailibility = () => {
 
@@ -106,8 +108,29 @@ function App() {
       body: JSON.stringify(userData)
     }); 
 
+    const uploadPhoto = async () => {
+      if (!file) return; 
+      // save JSON as virtual HTML form 
+      const dataPDF = new FormData(); 
+      //push this data to form
+      dataPDF.append('pdf', file)
+      dataPDF.append('description', description);
+      dataPDF.append('name', name);
+      dataPDF.append('email', email);
+      dataPDF.append('date', formattedDate);
+      data.pdf('time', appointmentTime);
+
+
+      await fetch ('https://pihwdyqgo6bkolqroclrhocw2y0ifjgm.lambda-url.us-west-2.on.aws/ ', {
+        method: 'POST',
+        body: dataPDF
+      });
+    }
+
+
     const data = await response.json();
     if (response.ok) {
+      await uploadPhoto(); //upload photo after booking or if failed photo wont upload
       setBookedDates(prevDate => [...prevDate, formattedDate]); 
       setDate(nextAvailibility());
       setAlert(`Appointment confirmed for ${formattedDate} `)
@@ -318,6 +341,18 @@ function App() {
                   <option value="2:00 PM">2:00 PM</option>
                   <option value="4:00 PM">4:00 PM</option>
                 </select>
+              </div>
+              <div className='reference'>
+                <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                ></textarea>
+                <label>Photo referernce</label>
+                <input
+                type='file'
+                accept ='application/pdf,image/*'
+                onChange={(e) => setFile(e.target.files ? e.target.files[0]: null)}
+                ></input>
               </div>
             </div>
             <button type="submit">Submit</button>
