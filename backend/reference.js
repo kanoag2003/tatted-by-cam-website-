@@ -1,5 +1,7 @@
 import 'dotenv/config'; 
 import multipart from 'parse-multipart-data';
+import nodemailer from 'nodemailer';
+import aws from '@aws-sdk/client-ses';
 
 export async function handler (event) {
 
@@ -19,38 +21,66 @@ export async function handler (event) {
       //parse multipart data using boundary
       const parts = multipart.parse(bodyBuffer, boundary);
 
-      const userName = parts.find(part => part.name === 'name');
-      const age = parts.find(part => part.name === 'age');
+      const userName = parts.find(part => part.name === 'name')
+      const userEmail = parts.find(part => part.name === 'email')
+      const date =  parts.find(part => part.name === 'date')
+      const description = parts.find(part => part.name === 'description');
       const photo = parts.find(part => part.name === 'photo');
       
-      if (!userName || !age || !photo) {
+      if (!userName || !userEmail|| !date || !description || !photo) {
         return {
           statusCode: 400,
           body: JSON.stringify({ error: "Missing required fields" })
         };
       }
 
-      const nameValue = userName.data.toString();
-      const ageValue = age.data.toString();
+      const nameValue = userName.data.toString();;
+      const emailValue = userEmail.data.toString();
+      const dateValue = date.data.toString(); 
+      const descriptionValue = description.data.toString(); 
       const photoData = photo.data;
       const photoFileName = photo.filename; 
 
-      console.log(`User: ${nameValue}, Age: ${ageValue}, File: ${photoFileName}`);
 
-      const connection = await mysql.createConnection({
-        host: process.env.DB_HOST, 
-        port: 3306,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD, 
-        database: process.env.DB_DATABASE 
-      }); 
-      await connection.end(); 
+      //Change amazonSESFullAccess policy to custom policy when in production
+      const ses = new aws.SESClient({ region: 'us-west-2'})
+
+      //create nodemailer transport using SES
+      const transport = nodemailer.createTransport({
+        SES: { ses, aws}
+      });
+
+      const mail = {
+        from: process.env.SENDER_EMAIL, 
+        replyTo: emailValue, 
+        to: process.env.ARTIST_EMAIL,
+        subject: 'New tattoo appointment request',
+        text: `
+          New appointment:
+
+          Name: ${nameValue}
+          Email: ${emailValue}
+          Date: ${dateValue}
+
+          Description : ${descriptionValue}
+        `,
+        attachments: [
+          {
+            filename: photoFileName,
+            content: photoData,
+            contentType: photo.type
+          }
+        ]
+      };
+      const sent = await transport.sendMail(mail)
+      console.log('Email sent!', sent); 
+
       return {
         statusCode: 200,
         body: JSON.stringify({ message: 'Reference sent to artist'})
       }; 
-    }
-
+    };
+      
   } catch (error) {
     console.log('Error sending to artist: ', error)
     return {
