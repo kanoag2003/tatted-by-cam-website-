@@ -144,6 +144,8 @@ function App() {
       setTimeout(() => setShowAlert(false), 3000);
     };
 
+    
+
     } catch {
       setAlert('Error booking appointment. Please try again.');
       setShowAlert(true);

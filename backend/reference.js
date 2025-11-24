@@ -1,7 +1,7 @@
 import 'dotenv/config'; 
 import multipart from 'parse-multipart-data';
 import nodemailer from 'nodemailer';
-import aws from '@aws-sdk/client-ses';
+import { SESClient } from '@aws-sdk/client-ses';
 
 export async function handler (event) {
 
@@ -43,15 +43,15 @@ export async function handler (event) {
 
 
       //Change amazonSESFullAccess policy to custom policy when in production
-      const ses = new aws.SESClient({ region: 'us-west-2'})
+      const ses = new SESClient({ region: 'us-west-2'})
 
       //create nodemailer transport using SES
       const transport = nodemailer.createTransport({
-        SES: { ses, aws}
+        SES: { ses }
       });
 
       const mail = {
-        from: process.env.SENDER_EMAIL, 
+        from: process.env.SENDER_EMAIL, // need to change to domain purchased later
         replyTo: emailValue, 
         to: process.env.ARTIST_EMAIL,
         subject: 'New tattoo appointment request',
@@ -79,6 +79,38 @@ export async function handler (event) {
         statusCode: 200,
         body: JSON.stringify({ message: 'Reference sent to artist'})
       }; 
+    };
+
+    if (event.requestContext.http.method ==='DELETE'){
+      const { cancelName, cancelEmail, formattedCancelDate, appointmentTime } =
+      JSON.parse(event.body);
+
+      const deleteSES = new SESClient({region: 'us-west-2'})
+
+      const transport = nodemailer.createTransport({
+        SES: { ses: deleteSES }
+      })
+
+      const deletionmail = {
+        from: process.env.SENDER_EMAIL,
+        replyTo: cancelEmail,
+        to: process.env.ARTIST_EMAIL,
+        subject: 'Appointment Canceled', 
+        text: `
+            Appointment canceled for:
+
+            Name: ${cancelName}
+            Date: ${formattedCancelDate}
+            Time :${appointmentTime}
+        `
+      }
+      const deleted = await transport.sendMail(deletionmail)
+      console.log('Deleted email sent: ', deleted)
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify('Deletion email sent')
+      }
     };
       
   } catch (error) {
