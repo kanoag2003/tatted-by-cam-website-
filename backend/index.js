@@ -10,6 +10,7 @@ export async function handler(event) {
     }
 
     const connection = await mysql.createConnection({
+      
       host: process.env.DB_HOST, 
       port: 3306,
       user: process.env.DB_USER,
