@@ -106,7 +106,8 @@ function App() {
       method: 'POST',
       headers: { 'Content-Type' : 'application/json'},
       body: JSON.stringify(userData)
-    }); 
+    });
+
 
     const uploadPhoto = async () => {
       if (!file) return; 
@@ -118,10 +119,10 @@ function App() {
       dataPDF.append('name', name);
       dataPDF.append('email', email);
       dataPDF.append('date', formattedDate);
-      data.pdf('time', appointmentTime);
+      dataPDF.append('time', appointmentTime);
 
 
-      await fetch ('https://pihwdyqgo6bkolqroclrhocw2y0ifjgm.lambda-url.us-west-2.on.aws/ ', {
+      await fetch ('https://pihwdyqgo6bkolqroclrhocw2y0ifjgm.lambda-url.us-west-2.on.aws/', {
         method: 'POST',
         body: dataPDF
       });
@@ -129,6 +130,12 @@ function App() {
 
 
     const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Backend error:", data);
+      setAlert(`Backend error: ${JSON.stringify(data)}`);
+      return;
+    }
     if (response.ok) {
       await uploadPhoto(); //upload photo after booking or if failed photo wont upload
       setBookedDates(prevDate => [...prevDate, formattedDate]); 
@@ -146,10 +153,12 @@ function App() {
 
     
 
-    } catch {
+    } catch (error) {
+      console.error('Fetch error:', error);
       setAlert('Error booking appointment. Please try again.');
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
+      return; 
     }
   };
 

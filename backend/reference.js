@@ -24,10 +24,11 @@ export async function handler (event) {
       const userName = parts.find(part => part.name === 'name')
       const userEmail = parts.find(part => part.name === 'email')
       const date =  parts.find(part => part.name === 'date')
+      const time = parts.find(part => part.name === 'time');
       const description = parts.find(part => part.name === 'description');
-      const photo = parts.find(part => part.name === 'photo');
+      const photo = parts.find(part => part.name === 'pdf');
       
-      if (!userName || !userEmail|| !date || !description || !photo) {
+      if (!userName || !userEmail|| !date || !time || !description || !photo) {
         return {
           statusCode: 400,
           body: JSON.stringify({ error: "Missing required fields" })
@@ -37,6 +38,7 @@ export async function handler (event) {
       const nameValue = userName.data.toString();;
       const emailValue = userEmail.data.toString();
       const dateValue = date.data.toString(); 
+      const timeValue =time.data.toString();
       const descriptionValue = description.data.toString(); 
       const photoData = photo.data;
       const photoFileName = photo.filename; 
@@ -61,7 +63,8 @@ export async function handler (event) {
           Name: ${nameValue}
           Email: ${emailValue}
           Date: ${dateValue}
-
+          Time: ${timeValue}
+          
           Description : ${descriptionValue}
         `,
         attachments: [
