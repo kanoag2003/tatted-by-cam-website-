@@ -1,7 +1,7 @@
 import 'dotenv/config'; 
 import multipart from 'parse-multipart-data';
 import nodemailer from 'nodemailer';
-import { SESClient } from '@aws-sdk/client-ses';
+import * as aws from '@aws-sdk/client-sesv2';
 
 export async function handler (event) {
 
@@ -45,11 +45,11 @@ export async function handler (event) {
 
 
       //Change amazonSESFullAccess policy to custom policy when in production
-      const ses = new SESClient({ region: 'us-west-2'})
+      const ses = new aws.SESv2Client({ region: 'us-west-2'})
 
       //create nodemailer transport using SES
       const transport = nodemailer.createTransport({
-        SES: { ses }
+        SES: { ses, aws }
       });
 
       const mail = {
@@ -88,10 +88,10 @@ export async function handler (event) {
       const { cancelName, cancelEmail, formattedCancelDate, appointmentTime } =
       JSON.parse(event.body);
 
-      const deleteSES = new SESClient({region: 'us-west-2'})
+      const deleteSES = new aws.SESv2Client({region: 'us-west-2'})
 
       const transport = nodemailer.createTransport({
-        SES: { ses: deleteSES }
+        SES: { ses: deleteSES, aws }
       })
 
       const deletionmail = {
