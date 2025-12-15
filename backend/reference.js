@@ -6,12 +6,12 @@ import * as aws from '@aws-sdk/client-sesv2';
 export async function handler (event) {
 
   try{
-    if (event.requestContext.http.method === 'OPTIONS'){
+    if (event.requestContext.httpMethod === 'OPTIONS'){
       return {
         statusCode: 200
       }
     }
-    if (event.requestContext.http.method === 'POST'){
+    if (event.requestContext.httpMethod === 'POST'){
       //get content-header type 
       const contentHeader = event.headers['content-type'] || event.headers['Content-Type'];
       // Extract boundary string from content-header(separate data into array)
@@ -64,7 +64,7 @@ export async function handler (event) {
           Email: ${emailValue}
           Date: ${dateValue}
           Time: ${timeValue}
-          
+
           Description : ${descriptionValue}
         `,
         attachments: [

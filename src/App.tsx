@@ -122,7 +122,7 @@ function App() {
       dataPDF.append('time', appointmentTime);
 
 
-      await fetch ('https://pihwdyqgo6bkolqroclrhocw2y0ifjgm.lambda-url.us-west-2.on.aws/', {
+      await fetch ('https://qdpptyrlzoapoxnimedhse7aoy0ascxm.lambda-url.us-west-2.on.aws/', {
         method: 'POST',
         body: dataPDF
       });
