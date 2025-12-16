@@ -6,12 +6,12 @@ import * as aws from '@aws-sdk/client-sesv2';
 export async function handler (event) {
 
   try{
-    if (event.requestContext.httpMethod === 'OPTIONS'){
+    if (event.httpMethod === 'OPTIONS'){
       return {
         statusCode: 200
       }
     }
-    if (event.requestContext.httpMethod === 'POST'){
+    if (event.httpMethod === 'POST'){
       //get content-header type 
       const contentHeader = event.headers['content-type'] || event.headers['Content-Type'];
       // Extract boundary string from content-header(separate data into array)
@@ -84,7 +84,7 @@ export async function handler (event) {
       }; 
     };
 
-    if (event.requestContext.http.method ==='DELETE'){
+    if (event.httpMethod ==='DELETE'){
       const { cancelName, cancelEmail, formattedCancelDate, appointmentTime } =
       JSON.parse(event.body);
 
