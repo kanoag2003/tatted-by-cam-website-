@@ -1,6 +1,7 @@
 import 'dotenv/config'; 
 import multipart from 'parse-multipart-data';
-import { SESv2Client, SendEmailCommand  } from '@aws-sdk/client-sesv2';
+import { SESv2Client, SendRawEmailCommand } from "@aws-sdk/client-sesv2";
+
 
 export async function handler (event) {
 
@@ -56,7 +57,7 @@ export async function handler (event) {
       
       const boundary2 = '----=_Part_0_' + Date.now();
 
-      const mail = [
+      const mail =  [
         `From: ${process.env.SENDER_EMAIL}`,
         `To: ${process.env.ARTIST_EMAIL}`,
         `Reply-To: ${emailValue}`,
@@ -85,12 +86,10 @@ export async function handler (event) {
         `--${boundary2}--`
       ].join('\r\n');
 
-      const command = new SendEmailCommand({
-        Content: {
-        Raw:{
-          Data: new TextEncoder().encode(mail)
+      const command = new SendRawEmailCommand({
+        RawMessage:{
+          Data: Buffer.from(mail)
         }
-      }
     });
 
       const result = await sesClient.send(command);
@@ -127,12 +126,10 @@ export async function handler (event) {
         `Time: ${appointmentTime}`
       ].join('\r\n');
 
-      const command = new SendEmailCommand({
-        Content: {
-          Raw: {
-            Data: new TextEncoder().encode(mail)
+      const command = new SendRawEmailCommand({
+          RawMessage: {
+            Data: Buffer.from(mail)
           }
-        }
       });
 
       const result = await sesClient.send(command);
