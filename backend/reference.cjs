@@ -1,9 +1,11 @@
-import 'dotenv/config'; 
-import multipart from 'parse-multipart-data';
-import { SESv2Client, SendRawEmailCommand } from "@aws-sdk/client-sesv2";
+const multipart = require('parse-multipart-data');
+const {
+  SESClient,
+  SendRawEmailCommand
+} = require('@aws-sdk/client-ses');
 
 
-export async function handler (event) {
+exports.handler = async (event) => {
 
   try{
     console.log('Event received:', JSON.stringify(event, null, 2));
@@ -51,10 +53,10 @@ export async function handler (event) {
 
 
       //Change amazonSESFullAccess policy to custom policy when in production
-      const sesClient = new SESv2Client({
+      const sesClient = new SESClient({
         region: 'us-west-2'
       });
-      
+      // separate the tattoo description and the pdf attachement 
       const boundary2 = '----=_Part_0_' + Date.now();
 
       const mail =  [
@@ -85,13 +87,13 @@ export async function handler (event) {
         photoData.toString('base64'),
         `--${boundary2}--`
       ].join('\r\n');
-
+      // prepare email to be sent 
       const command = new SendRawEmailCommand({
         RawMessage:{
           Data: Buffer.from(mail)
         }
     });
-
+    // send actual email 
       const result = await sesClient.send(command);
       console.log('Email sent!', result); 
 
@@ -108,7 +110,7 @@ export async function handler (event) {
 
       
 
-      const sesClient = new SESv2Client({
+      const sesClient = new SESClient({
         region: 'us-west-2'
       });
       const mail = [
@@ -148,3 +150,4 @@ export async function handler (event) {
     }
   }
 }
+
