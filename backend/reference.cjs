@@ -8,15 +8,18 @@ const {
 exports.handler = async (event) => {
 
   try{
-    console.log('Event received:', JSON.stringify(event, null, 2));
     const httpMethod = event.requestContext.http.method; 
-    console.log('HTTP method, ', httpMethod); 
-    console.log('RequestContext:', event.requestContext);
+
     
 
     if (httpMethod === 'OPTIONS'){
       return {
-        statusCode: 200
+        statusCode: 204,
+        headers: {
+        'Access-Control-Allow-Origin': '*', 
+        'Access-Control-Allow-Methods': 'POST, GET, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+        }
       }
     }
     if (httpMethod === 'POST'){
@@ -105,6 +108,19 @@ exports.handler = async (event) => {
     };
 
     if (httpMethod ==='DELETE'){
+      console.log('--- DEBUG: DELETE branch hit ---');
+      console.log('Raw event body:', event.body);
+
+      let parsedBody;
+      try {
+          parsedBody = JSON.parse(event.body);
+          console.log('Parsed body:', parsedBody);
+      } catch (err) {
+          console.log('Error parsing body:', err);
+      }
+
+
+
       const { cancelName, cancelEmail, formattedCancelDate, appointmentTime } =
       JSON.parse(event.body);
 
