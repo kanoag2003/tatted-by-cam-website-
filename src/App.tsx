@@ -167,7 +167,7 @@ function App() {
       const userData = { cancelName, cancelEmail, formattedCancelDate, appointmentTime };
       try {
           // Get the URL data and convert to JSON
-        const response = await fetch('https://vrx2kxxqomkalbuehfkncwkdly0imcwk.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
+        const response = await fetch('https://qdpptyrlzoapoxnimedhse7aoy0ascxm.lambda-url.us-west-2.on.aws/', { // Change to API gateway via lambda for production stage 
           method: 'DELETE',
           headers: { 'Content-Type' : 'application/json'},
           body: JSON.stringify(userData)
