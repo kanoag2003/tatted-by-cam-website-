@@ -44,7 +44,7 @@ function App() {
   const nextAvailibility = () => {
 
     if (!date) return null; 
-    let nextDate = date; // get currentDate from dayjs
+    let nextDate = dayjs().add(1, 'day'); // get currentDate from dayjs
 
 
     while (true) {
