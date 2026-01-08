@@ -118,6 +118,15 @@ button:not(.hamburger):focus-visible {
   transform: translateY(-2px);
 }
 
+.venmo-logo,
+.cash-app-logo{
+  width: 20px; 
+  height: 20px;
+  margin-right: 10px;
+  margin-bottom: 3px;  
+  vertical-align: middle;
+}
+
 /* 📱 Mobile phones (portrait)  */
 @media (max-width: 480px) {
   h1 {

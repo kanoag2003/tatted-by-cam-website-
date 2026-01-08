@@ -193,6 +193,13 @@ function App() {
           setTimeout(() => setShowAlert(false), 3000);
       };
 }; 
+//  venmo direct deposit link 
+    const depositAmount = 50; 
+    const encodeDeposit =  encodeURIComponent('Tattoo deposit for appointment');
+    const directDeposit  = `https://venmo.com/camiep14?txn=pay&amount=${depositAmount}&note=${encodeDeposit}`;
+// cash app direct deposit 
+    const cashAppDepositAmount = 50; 
+    const cashAppDeposit = `https://cash.app/$CamiePascual/${cashAppDepositAmount}`;
   return (
     <div className="App">
       <header className="App-header">
@@ -366,6 +373,12 @@ function App() {
                 ></input>
               </div>
             </div>
+            <a href={cashAppDeposit} target="_blank" rel="noopener noreferrer">
+              <button type="button"><img src="/cashapp-logo.png" alt="Cash App Logo" className="cash-app-logo" /><span>Cash App</span></button>
+            </a>
+            <a href={directDeposit} target="_blank" rel="noopener noreferrer">
+              <button type="button"><img src="/venmo-logo.png" alt="Venmo Logo" className="venmo-logo" /><span>Venmo</span></button>
+            </a>
             <button type="submit">Submit</button>
           </form>
           {showAlert && (
