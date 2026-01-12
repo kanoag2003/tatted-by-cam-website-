@@ -203,9 +203,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="logo-buttons-container">
           <img src="/Tatted_By_Cam_logo.jpeg" alt="Tatted by Cam Logo" className="logo" />
-        </div>
 
         <button className="hamburger" aria-label="Open menu" aria-expanded={isMenuOpen} onClick={() => setIsMenuOpen(o => !o)}>
           <svg viewBox="0 0 24 18" aria-hidden="true" focusable="false">
@@ -258,7 +256,11 @@ function App() {
 
       <main className="sections-wrapper">
         <div className='home-section section'>
-          Home
+          <div className='home-content'>
+            <h1 className='home-title'>Tatted by Cam</h1>
+            <div className='home-bar'></div>
+            <p className='home-name'>Cameron Pascual</p>
+          </div>
         </div>
 
         <div className='section' id='about'>
