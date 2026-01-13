@@ -264,7 +264,19 @@ function App() {
         </div>
 
         <div className='section' id='about'>
-          About
+          <div className='porfolio-header'>
+            <h2 className='portfolio-title'>Meet The Artist</h2>
+            <div className='underline'></div>
+          </div>
+
+          <img src="/about-pic.JPG" alt="Camie Pascual" className="about-pic" />
+            <p className='artist-bio'>
+            Cameron Pascual is a growing tattoo artist passionate about creating meaningful, high-quality tattoos that feel just as personal as they look. Her work is rooted in strong artistic fundamentals, attention to detail, and a deep respect for each client’s story.
+
+            She strive's to be a versatile artist, comfortable working across multiple styles while maintaining a clean, refined aesthetic. Whether you come in with a fully developed concept or just the beginning of an idea, she will take the time to collaborate with you—making sure your tattoo feels intentional, unique, and timeless.
+
+            Beyond the art itself, she is committed to providing a professional, comfortable, and welcoming experience. From consultation to aftercare, her goal is for every client to feel confident, heard, and excited about their tattoo for years to come. <strong>For booking instructions, please refer to the policy section below.</strong> 
+            </p>
         </div>
 
 
@@ -301,7 +313,11 @@ function App() {
       </Swiper>
         </div>
 
-        <div className='section' id='schedule'>
+        <div className='section' id='scheduling'>
+        <div className='portfolio-header'>
+          <h2 className='portfolio-title'>Scheduling</h2>
+          <div className='underline'></div>
+        </div>
         <form onSubmit={handleSubmit}>
             <input
               type="text"
@@ -391,6 +407,10 @@ function App() {
         </div>
 
         <div className='section' id='cancelling'>
+        <div className='portfolio-header'>
+          <h2 className='portfolio-title'>Cancel</h2>
+          <div className='underline'></div>
+        </div>
         <form onSubmit={handleDelete}>
             <input
               type="text"
