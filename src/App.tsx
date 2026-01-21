@@ -97,6 +97,8 @@ function App() {
     return !bookedDates.includes(formatted) ||  day.day() === 0 || day.day() === 6; 
   }
   
+  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userData = { name, email, formattedDate, appointmentTime };
@@ -281,7 +283,7 @@ function App() {
 
           <img src="/about-pic.JPG" alt="Camie Pascual" className="about-pic" />
             <p className='artist-bio'>
-            Cameron Pascual is a growing tattoo artist passionate about creating meaningful, high-quality tattoos that feel just as personal as they look. Her work is rooted in strong artistic fundamentals, attention to detail, and a deep respect for each clients story.
+            Cameron Pascual is a growing tattoo artist passionate about creating meaningful, high-quality tattoos that feel just as personal as they look. Located in Tacoma, Washington, her work is rooted in strong artistic fundamentals, attention to detail, and a deep respect for each clients story.
 
             She strive's to be a versatile artist, comfortable working across multiple styles while maintaining a clean, refined aesthetic. Whether you come in with a fully developed concept or just the beginning of an idea, she will take the time to collaborate with you—making sure your tattoo feels intentional, unique, and timeless.
 
@@ -293,10 +295,13 @@ function App() {
         
 
         <div className='section' id='portfolio'>
-        <div className='portfolio-header'>
-          <h2 className='portfolio-title'>Portfolio</h2>
-          <div className='underline'></div>
-        </div>
+          <section className='fade-in'>
+            <div className='portfolio-header'>
+              <h2 className='portfolio-title'>Portfolio</h2>
+              <div className='underline'></div>
+            </div>
+          </section>
+
             <Swiper
               effect='coverflow'
               grabCursor = {true}
@@ -329,20 +334,22 @@ function App() {
           <div className='underline'></div>
         </div>
         <form onSubmit={handleSubmit}>
+          <div className='formrow'>
             <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Full Name"
-              required
-            />
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Full Email"
-              required
-            />
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Full Name"
+                required
+              />
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Full Email"
+                required
+              />
+          </div>
             <div className='date-picker'>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -498,8 +505,7 @@ function App() {
       <summary>Booking & Deposits</summary>
       <ul>
         <li>A $50 non-refundable deposit is required to book all tattoo appointments and is accepted via cashapp or venmo.</li>
-        <li>Deposits go toward the final price of the tattoo.</li>
-        <li>Deposits are transferable one time only with at least 48 hours notice.</li>
+        <li>Deposits are transferable one time only with at least 48 hours notice and go towards the final price of the tattoo.</li>
       </ul>
     </details>
 
@@ -515,8 +521,8 @@ function App() {
     <details>
       <summary>Late Policy</summary>
       <ul>
-        <li>Please arrive on time.</li>
-        <li>Arriving more than 15 minutes late may result in cancellation and loss of deposit.</li>
+        <li>Please arrive on time.
+        Arriving more than 15 minutes late may result in cancellation and loss of deposit. </li>
       </ul>
     </details>
 
