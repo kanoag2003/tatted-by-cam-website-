@@ -586,6 +586,26 @@ function App() {
     <strong>By booking an appointment, you acknowledge and agree to all studio policies.</strong>
   </p>
         </div>
+        <div className='social-media'>
+        <div className='underline'></div>
+        <a
+    href="https://www.instagram.com/tattedby_cam"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Instagram"
+  >
+    <img src="/instagram-logo.jpeg" alt="Instagram" />
+  </a>
+
+  <a
+    href="https://www.tiktok.com/@cnkp.14"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="TikTok"
+  >
+    <img src="/tiktok-logo.jpg" alt="TikTok" />
+  </a>
+        </div>
       </main>
     </div>
   )
