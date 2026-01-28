@@ -87,6 +87,28 @@ function App() {
     }
   }, [bookedDates]);
 
+  useEffect(() => {
+    const elements = document.querySelectorAll('.reveal');
+  
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      },
+      {
+        threshold: 0.15, 
+      }
+    );
+  
+    elements.forEach(el => observer.observe(el));
+  
+    return () => observer.disconnect();
+  }, []);
+  
+
   const dateDisabled = (day: dayjs.Dayjs) => {
     const formatted = day.format('MM/DD/YYYY');
     return bookedDates.includes(formatted) || day.day() === 0 || day.day() === 6;
@@ -267,7 +289,7 @@ function App() {
       </div>
 
       <main className="sections-wrapper">
-        <div className='home-section section' id='home'>
+        <div className='home-section section reveal' id='home'>
           <div className='home-content'>
             <h1 className='home-title'>Tatted By Cam</h1>
             <div className='home-bar'></div>
@@ -275,7 +297,7 @@ function App() {
           </div>
         </div>
 
-        <div className='section' id='about'>
+        <div className='section reveal' id='about'>
           <div className='porfolio-header'>
             <h2 className='portfolio-title'>Meet The Artist</h2>
             <div className='underline'></div>
@@ -294,7 +316,7 @@ function App() {
 
         
 
-        <div className='section' id='portfolio'>
+        <div className='section reveal' id='portfolio'>
           <section className='fade-in'>
             <div className='portfolio-header'>
               <h2 className='portfolio-title'>Portfolio</h2>
@@ -328,7 +350,7 @@ function App() {
       </Swiper>
         </div>
 
-        <div className='section' id='schedule'>
+        <div className='section reveal' id='schedule'>
         <div className='portfolio-header'>
           <h2 className='portfolio-title'>Scheduling</h2>
           <div className='underline'></div>
@@ -413,7 +435,7 @@ function App() {
                 </div>
             </div>
 
-            <div className='payment-buttons'>
+            <div className='payment-buttons reveal'>
               <a href={cashAppDeposit} target="_blank" rel="noopener noreferrer">
                 <button type="button"><img src="/cashapp-logo.png" alt="Cash App Logo" className="cash-app-logo" /><span>Cash App</span></button>
               </a>
@@ -431,7 +453,7 @@ function App() {
           )}
         </div>
 
-        <div className='section' id='cancelling'>
+        <div className='section reveal' id='cancelling'>
         <div className='portfolio-header'>
           <h2 className='portfolio-title'>Cancel</h2>
           <div className='underline'></div>
@@ -489,7 +511,7 @@ function App() {
         </form>
         </div>
 
-        <div className='section' id='policy'>
+        <div className='section reveal' id='policy'>
         <div className='portfolio-header'>
           <h2 className='portfolio-title'>Studio Policies</h2>
           <div className='underline'></div>
@@ -499,7 +521,7 @@ function App() {
     to the following policies:
   </p>
 
-  <div className="policy-accordion">
+  <div className="policy-accordion reveal">
 
     <details>
       <summary>Booking & Deposits</summary>
@@ -586,7 +608,7 @@ function App() {
     <strong>By booking an appointment, you acknowledge and agree to all studio policies.</strong>
   </p>
         </div>
-        <div className='social-media'>
+        <div className='social-media reveal'>
         <div className='underline'></div>
         <a
     href="https://www.instagram.com/tattedby_cam"
