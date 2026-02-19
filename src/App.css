@@ -890,27 +890,22 @@ input[type="email"]:hover {
   justify-content: center; /* center the buttons */
 }
 
-/* Make all buttons same width */
+
 .payment-buttons button {
-  flex: 1; /* each button takes equal width */
-  min-width: 120px; /* prevents buttons from being too small */
+  flex: 1; 
+  min-width: 120px; 
   display: flex;
   align-items: center;
-  justify-content: center; /* centers text + icon */
-  gap: 0.5rem; /* space between icon and text */
+  justify-content: center; 
+  gap: 0.5rem; 
   padding: 0.65rem 1rem;
   border-radius: 8px;
   border: 2px solid var(--hot-pink);
-  background: var(--secondary-black);
+  background: transparent;
   color: var(--text-white);
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.payment-buttons button:hover {
-  background: var(--hot-pink);
-  color: var(--text-white);
-}
 
 .payment-buttons img {
   height: 20px; 
@@ -919,6 +914,21 @@ input[type="email"]:hover {
 
 .payment-buttons a {
   text-decoration: none;
+}
+
+.cancel-button {
+  background: transparent;
+  color: var(--text-white);
+  border: 2px solid var(--hot-pink);
+  margin-left: 5px;
+  transition: none; 
+}
+
+.cancel-button:hover{
+    background: transparent !important;
+    color: var(--text-white) !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
 
 .social-media {

@@ -507,7 +507,7 @@ function App() {
               }}
               ></DatePicker>
             </LocalizationProvider>
-            <button type="submit">Cancel</button>
+            <button type="submit" className='cancel-button'>Cancel</button>
         </form>
         </div>
 
